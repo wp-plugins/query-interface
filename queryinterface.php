@@ -3,7 +3,7 @@
 Contributor:       Zeeshan Khan
 Plugin Name:       Query Interface
 Plugin URI:        http://www.queryinn.com/
-Description:       A query interface, where you dont need to log in to your database explicitly like going through cpanel or any other interface, but you can easily access your database and write down your queries within wordpress admin panel.
+Description:       A query interface, where you dont need to log in to your database explicitly like cpanel, but write & execute queries within wordpress admin panel.
 Author:            Zeeshan Khan
 Author URI:        http://www.queryinn.com/index.php/about/
 Version:           1.0

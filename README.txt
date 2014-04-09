@@ -1,4 +1,4 @@
-=== Query Interfaces ===
+=== Query Interface ===
 Contributor:       Zeeshan Khan
 Tags: query interface, sql reporting
 
