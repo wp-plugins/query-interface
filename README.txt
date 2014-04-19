@@ -1,6 +1,7 @@
-=== Query Interface ===
+=== Query Interfaces ===
 Contributor:       Zeeshan Khan
 Tags: query interface, sql reporting
+Tested up to: 3.9
 
 == Installation ==
 

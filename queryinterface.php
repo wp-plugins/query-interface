@@ -6,7 +6,7 @@ Plugin URI:        http://www.queryinn.com/
 Description:       A query interface, where you dont need to log in to your database explicitly like cpanel, but write & execute queries within wordpress admin panel.
 Author:            Zeeshan Khan
 Author URI:        http://www.queryinn.com/index.php/about/
-Version:           1.0
+Version:           1.1
 */
 
 if (is_admin())
@@ -31,12 +31,14 @@ function view_fields(){
 		$fields[] = $row[0];
 	}
 ?>
-	<strong>Fields</strong><br>
-	<select name="fields" id="fields" multiple="true" style='height: 150px;'>
-		<?php foreach($fields as $fld) { ?>
-			<option value="<?php echo $fld?>"><?php echo $fld?></option>
-		<?php } ?>
-	</select>
+	<div class="td_head">Fields</div>
+	<div>
+		<select name="fields" id="fields" multiple="true" style='height: 150px;'>
+			<?php foreach($fields as $fld) { ?>
+				<option value="<?php echo $fld?>"><?php echo $fld?></option>
+			<?php } ?>
+		</select>
+	</div>
 <?php
 
 exit;
