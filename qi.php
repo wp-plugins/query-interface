@@ -1,3 +1,10 @@
+<?php
+if(!function_exists('is_admin'))
+{
+	die();
+}
+?>
+
 <style type="text/css">
 	.td_head {
         background-color: #DFDFDF;

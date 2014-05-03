@@ -9,6 +9,11 @@ Author URI:        http://www.queryinn.com/index.php/about/
 Version:           1.1
 */
 
+if(!function_exists('is_admin'))
+{
+	die();
+}
+
 if (is_admin())
 {
 /* Call the html code */
