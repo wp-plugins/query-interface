@@ -6,9 +6,10 @@ Plugin URI:        http://www.queryinn.com/
 Description:       A query interface, where you dont need to log in to your database explicitly like cpanel, but write & execute queries within wordpress admin panel.
 Author:            Zeeshan Khan
 Author URI:        http://www.queryinn.com/index.php/about/
-Version:           1.1
+Version:           1.2
 */
 
+// admin check
 if(!function_exists('is_admin'))
 {
 	die();

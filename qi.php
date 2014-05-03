@@ -1,4 +1,6 @@
 <?php
+
+// admin check
 if(!function_exists('is_admin'))
 {
 	die();
