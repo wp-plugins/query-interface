@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 // admin check
 if(!function_exists('is_admin'))
 {
@@ -29,13 +29,69 @@ function embed_value(val)
 	return false;
 }
 
-function check_query()
+function set_show_queries()
 {
-	jQuery("#chk").val("1");
+	jQuery.ajax({
+		type: 'GET',
+		dataType: 'html',
+		url: ajaxurl,
+		data: {"action": "set_queries"},
+		success: function(data)
+		{
+			jQuery('#act_deact').html(data);
+		}
+	});
+	return false;
+}
+
+
+function check_query(btn_val)
+{
+	jQuery("#chk").val(btn_val);
 	jQuery("#qi").submit();
 }
 <?php
-$config["site_name"] = "http://www.queryinn.com/";	
+
+function get_query($sql, $type=0)
+{
+	global $config;
+	$results = array();
+	if($type == 1)
+	{
+		$sql_explain = "EXPLAIN "; 
+		$sql = $sql_explain.$sql;
+	}
+	elseif($type == 2)
+	{
+		$sql = "SELECT COMMAND as 'type', TIME as 'seconds', STATE as 'condition', INFO 'query'
+				FROM INFORMATION_SCHEMA.PROCESSLIST
+				WHERE INFO NOT LIKE '%INFORMATION_SCHEMA%'";
+	}
+	elseif($type == 3)
+	{
+		$sql_index = "SHOW INDEX FROM ";
+		$sql = $sql_index.$sql;	
+	}
+	$rs = mysql_query($sql);
+	$results["total_rows"] = mysql_num_rows($rs);
+	$results["num_fields"] = mysql_num_fields($rs);
+	for($i=0; $i<$results["num_fields"]; $i++)
+		$results["fields"][] = mysql_field_name($rs, $i);
+
+	if(mysql_error())
+	{
+		echo mysql_error();
+	}
+	else
+	{
+		while($row = mysql_fetch_assoc($rs))
+		{
+			$results["values"][] = $row;
+		}
+	}
+	return $results;
+}
+
 $sql = "SHOW TABLES";
 $rs = mysql_query($sql);
 $tables = array();
@@ -71,6 +127,13 @@ unset($process);
 			<td>
 				<table>
 					<tr>
+						<td colspan="3" align="center" class="">Click here to 
+								<a href="javascript:void(0)" onclick="set_show_queries()"><span id="act_deact">
+								<strong><?php echo $_SESSION["show_queries"] == 1 ? "Deactivate" : "Activate" ?></strong></span></a>
+								the Queries to Display on the Website (for admins only)
+						</td>
+					</tr>
+					<tr>
 						<td align="center" class="td_head">Tables</td>
 						<td align="center" class="td_head">Query</td>
 					</tr>
@@ -102,7 +165,9 @@ unset($process);
 						<td>&nbsp;</td>
 						<td>
 							<input name="submit_button" type="submit" value="Submit" />
-							<input type="button" value="Check Query" onclick="javascript:check_query();" />
+							<input type="button" value="Check Query" onclick="javascript:check_query(1);" />
+							<input type="button" value="Running Queries" onclick="javascript:check_query(2);" />
+							<input type="button" value="Display Indexes" onclick="javascript:check_query(3);" />
 						</td>
 					</tr>
 					<tr><td>&nbsp;</td></tr>
@@ -131,17 +196,9 @@ unset($process);
 if($_POST)
 {
 	$sql = "";
-	if($_POST["chk"] == 1)
-	{
-		$sql = "EXPLAIN ";
-	}
-	$sql .= $_POST["query"];
-	$rs = mysql_query($sql);
-	$num_fields = mysql_num_fields($rs);
-	for($i=0; $i<$num_fields; $i++)
-		$fields[] = mysql_field_name($rs,$i);
-	// $sql = $_POST["query"];
-	// $rs = mysql_query($sql);
+	$sql = $_POST["query"];
+	$action = intval($_POST["chk"]);
+	$results = get_query($sql, $action);
 	if(mysql_error())
 	{
 		echo mysql_error();
@@ -151,37 +208,33 @@ if($_POST)
 		?> <table align="center" border=1>
 			<tr>
 			<?php
-			foreach($fields as $fld)
+			foreach($results["fields"] as $fld)
 			{
 				?>
 					<td align="center"><strong><?php echo $fld?></strong></td>
 				<?php
 			}
 			?> </tr> <?php
-		$sql = "";
-		if($_POST["chk"] == 1)
+		$total_rows = $results["total_rows"];
+		if($results["total_rows"] > 0)
 		{
-			$sql = "EXPLAIN ";
-		}
-		$sql .= $_POST["query"];		
-		$rs = mysql_query($sql) or die(mysql_error());
-		$total_rows = mysql_num_rows($rs);
-		while($row = mysql_fetch_array($rs))
-		{
-		?>
-			<tr>
-		<?php
-			for($i=0; $i<$num_fields; $i++)
+			foreach($results["values"] as $result_rows)
 			{
-				?>
-					<td align="center"><?php echo $row[$i]?></td>
-			<?php } ?>
-			</tr>
-	<?php
+			?>
+				<tr>
+			<?php
+				foreach($result_rows as $result_cols)
+				{
+					?>
+						<td align="center"><?php echo $result_cols?></td>
+				<?php } ?>
+				</tr>
+			<?php
+			}
 		}
 	?>
 		<tr>
-			<td colspan="<?php echo $num_fields?>"><strong>Total rows: <strong><?php echo $total_rows?></td>
+			<td colspan="<?php echo $results["num_fields"]?>"><strong>Total rows: <strong><?php echo $results["total_rows"]?></td>
 		</tr>
 	<?php
 	}
