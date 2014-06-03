@@ -6,7 +6,7 @@ Plugin URI:        http://www.queryinn.com/
 Description:       An interface where you can run & execute queries, display running queries on live pages with the time they're taking in loading, optimize them etc.
 Author:            Zeeshan Khan
 Author URI:        http://www.queryinn.com/index.php/about/
-Version:           1.3
+Version:           1.3.1
 */
 // admin check
 if(!function_exists('is_admin'))
@@ -68,10 +68,19 @@ function show_buton()
 		{
 			color:#000000;
 		}
+		.qi_normal 
+		{
+			border: 0px;
+			margin: 1em auto;
+			display:block;
+			position:relative;
+			z-index:999;
+		}
+
 	</style>
 		<table width="100%">
 			<tr>
-				<td class="qi_top"><strong><a class="qi_top" href="javascript:void(0)" onClick="qi_scroll()">Click to view queries</a></td>
+				<td width="100%" class="qi_top qi_normal"><strong><a class="qi_top" href="javascript:void(0)" onClick="qi_scroll()">Click to view queries</a></td>
 			</tr>
 		</table>
 	<?php
@@ -85,7 +94,11 @@ function show_queries()
 		{
 			border: 0px;
 			margin: 1em auto;
+			display:block;
+			position:relative;
+			z-index:999;
 		}
+
 		.qi_alt1, .qi_head 
 		{
 			font-family: Arial;
@@ -100,6 +113,10 @@ function show_queries()
 		.qi_alt1 td
 		{
 			padding: 5px 5px;
+			display:block;
+			position:relative;
+			z-index:999;
+			
 		}
 		a.qi_head
 		{
@@ -148,7 +165,7 @@ function show_queries()
 					?>
 						<tr>
 							<td>
-								<table class="qi_alt1">
+								<table class="qi_normal qi_alt1">
 									<tr>
 										<td><strong>Query</strong></td>
 										<td><?php echo $qry[0]; ?></td>
@@ -164,10 +181,12 @@ function show_queries()
 								</table>
 							</td>
 						</tr>
-			</table>
 				<?php
 				}
-	}	
+				?>
+			</table>
+				<?php
+	}
 }
 
 function view_fields(){
