@@ -1,4 +1,4 @@
-=== Show WorpPress Queries ===
+=== Show WordPress Queries - Query Interface ===
 Contributor:       Zeeshan Khan
 Tags: query interface, show queries, explain queries, display queries
 Tested up to: 4.1
