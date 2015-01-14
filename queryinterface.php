@@ -1,9 +1,9 @@
 <?php
 /*
 Contributor:       Zeeshan Khan
-Plugin Name:       Query Interface
+Plugin Name:       Show WordPress Queries - Query Interface
 Plugin URI:        http://www.queryinn.com/
-Description:       An interface where you can run & execute queries, display running queries on live pages with the time they're taking in loading, optimize them etc.
+Description:       An interface to show, run & execute wordpress queries, display queries on pages with loading time so you may optimize them etc.
 Author:            Zeeshan Khan
 Author URI:        http://www.queryinn.com/index.php/about/
 Version:           1.3.1
@@ -39,7 +39,7 @@ function logout_session()
 function queryinterface_admin_menu()
 {
 
-	add_object_page('Query Interface', 'Query Interface', 'administrator', 'query-interface', 'queryinterface_func');
+	add_object_page('Show WordPress Queries', 'Show WordPress Queries', 'administrator', 'query-interface', 'queryinterface_func');
 }
 
 function show_buton()
