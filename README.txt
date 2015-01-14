@@ -1,7 +1,7 @@
 === Query Interface ===
 Contributor:       Zeeshan Khan
 Tags: query interface, show queries, explain queries, display queries
-Tested up to: 3.9
+Tested up to: 4.1
 
 == Installation ==
 
